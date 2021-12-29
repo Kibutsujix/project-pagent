@@ -13,4 +13,5 @@ void search_books();
 
 void sort_books();
 
+void del_books(int m,int n);
 #endif
