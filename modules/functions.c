@@ -47,8 +47,8 @@ int search(char* args, int choice){
 
 		// search by book name
 		case 2:
-			for(int i=0;i<GENRE;i++){
-				for(int j=0;j<books_occupied[i];j++){
+			for(i=0;i<GENRE;i++){
+				for(j=0;j<books_occupied[i];j++){
 					if(strcmp(args, temp=to_lower(catalog[i][j].book_name))==0 && catalog[i][j].ISSUE.status==0){
 						printbooks(i, j);
 						free(temp);
@@ -62,8 +62,8 @@ int search(char* args, int choice){
 
 		// search by ID
 		case 3:
-			for(int i=0;i<GENRE;i++){
-				for(int j=0;j<books_occupied[i];j++){
+			for(i=0;i<GENRE;i++){
+				for(j=0;j<books_occupied[i];j++){
 					if(atoi(args) == atoi(catalog[i][j].id) && catalog[i][j].ISSUE.status==0){
 						printbooks(i, j);
 						return j;
@@ -78,9 +78,10 @@ int search(char* args, int choice){
 
 
 void search_books(){
-	int choice, p;
-	char author[50], bookname[50], se_id[6], *temp;
-	for(;;)
+	int choice;
+	char args[50], *temp;
+	
+    for(;;)
 	{
 		printf("\nSearch by:\n\n1. Author name\n2. Book name\n3. Book ID\n\n");
 		printf("Enter a choice/Enter 4 to exit search: ");
@@ -91,22 +92,22 @@ void search_books(){
 		{
 			case 1:
 				printf("Enter the author's name: ");
-				scanf("%[^\n]s", author);
-				p=search(temp=to_lower(author), choice);
+				scanf("%[^\n]s", args);
+				search(temp=to_lower(args), choice);
 				free(temp);
 				break;
 
 			case 2:
 				printf("Enter the book name: ");
-				scanf("%[^\n]s",bookname);
-				search(temp=to_lower(bookname), choice);
+				scanf("%[^\n]s", args);
+				search(temp=to_lower(args), choice);
 				free(temp);
 				break;
 
 			case 3:
 				printf("Enter the ID of the book: ");
-				scanf("%[^\n]s", se_id);
-				search(se_id, choice);
+				scanf("%[^\n]s", args);
+				search(args, choice);
 				break;
 
 			case 4:
@@ -120,8 +121,8 @@ void search_books(){
 
 void sort(int choice){
 
-    int h, i, j, k, min;
-    BOOK temp;
+    int i, j, k, min;
+    
     switch(choice) {
 
         // sort by ID

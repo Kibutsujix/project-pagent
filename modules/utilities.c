@@ -53,3 +53,22 @@ char* to_lower(char str[]) {
 	temp[i]='\0';
 	return temp;
 }
+
+int hashcmp(char* h1, char* h2){
+
+    int i=0;
+
+    if(strlen(h1)!=strlen(h2))
+        return -1;
+    else{
+        while(h1[i] != '\0'){
+
+            if(h1[i]!=h2[i])
+                return -1;
+            else
+                i++;
+        }
+    }
+
+    return 0;
+}
