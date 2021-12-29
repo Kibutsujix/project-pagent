@@ -207,3 +207,30 @@ void sort_books(){
             printf("Enter a choice between 1 & 5 only.\n\n");
     }
 }
+void del_books(int m,int n)
+{
+    int k,i,p;
+    BOOK del_item, j;
+    struct issue issue;
+    issue.status=0;
+    printf("Enter the details of the book to be deleted\n");
+    scanf("%s%s",&del_item.id, &del_item.book_name);
+    for (i = 0; i < m; i++)
+    {
+        for ( p = 0; p < n; p++)
+        {
+            if (strcmp(catalog[i][p].id,del_item.id)==0)
+            {
+                j = catalog[i][p];
+                issue.status=1;
+                n--;
+                for (int k = 0; k < n; k++)
+                {
+                    catalog[i][p] = catalog[i][p+1];
+                    p++;
+                }
+                break;
+            }
+        }
+    }
+}
