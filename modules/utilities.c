@@ -6,8 +6,7 @@
 
 void printbooks(int i, int j){
 
-	printf("\nBook found.\n\n");
-	printf("ID: %s\nName: %s\nAuthor: %s\nGenre: %s\nPrice: %d\n\n", catalog[i][j].id, catalog[i][j].book_name, \
+	printf("\nID: %s\nName: %s\nAuthor: %s\nGenre: %s\nPrice: %d\n\n", catalog[i][j].id, catalog[i][j].book_name, \
 			catalog[i][j].author_name, genre_list[i], catalog[i][j].price);
 }
 
@@ -71,4 +70,14 @@ int hashcmp(char* h1, char* h2){
     }
 
     return 0;
+}
+
+void pgenre(){
+
+    int i;
+
+    printf("\n");
+    for(i=0;i<GENRE;i++)
+        printf("%d. %s\n", i+1, genre_list[i]);
+    printf("\nEnter a genre/Enter 6 to exit: ");
 }

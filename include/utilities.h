@@ -1,6 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+// print a specific book in a
 void printbooks(int i, int j);
 
 // pretty print function used to print all books in the database
@@ -17,5 +18,8 @@ char* to_lower(char* str);
 
 // compares two given hashes
 int hashcmp(char* h1, char* h2);
+
+// print list of genres available
+void pgenre();
 
 #endif

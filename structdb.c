@@ -21,7 +21,7 @@ int main(){
     if(choice == 1 || choice == 2){
 
         strcpy(passwd, getpass("Enter password: "));
-        
+
         if(choice == 1 && hashcmp(inputpass=strdup(crypt(passwd, "$5$")), hash_admin)==0){
 
             for(;;){
@@ -31,6 +31,10 @@ int main(){
                 scanf("%d", &choice);
 
                 switch(choice){
+
+                    case 3:
+                        modify_books();
+                        break;
 
                     case 4:
                         search_books();
@@ -48,7 +52,7 @@ int main(){
                         return 0;
 
                     default:
-                        printf("Enter a choice between 1 & 7 only.\n\n");
+                        printf("Enter a choice between 1-7 only.\n\n");
                 }
             }
         }
@@ -88,7 +92,7 @@ int main(){
                         return 0;
 
                     default:
-                        printf("Enter a choice between 1 & 4 only.\n\n");
+                        printf("Enter a choice between 1-4 only.\n\n");
                 }
             }
         }

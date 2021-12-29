@@ -35,6 +35,7 @@ int search(char* args, int choice){
 			for(i=0;i<GENRE;i++){
 				for(j=0;j<books_occupied[i];j++){
 					if(strcmp(args, temp=to_lower(catalog[i][j].author_name))==0 && catalog[i][j].ISSUE.status==0){
+                        printf("\nBook found.\n");
 						printbooks(i, j);
 						free(temp);
 						return j;
@@ -50,6 +51,7 @@ int search(char* args, int choice){
 			for(i=0;i<GENRE;i++){
 				for(j=0;j<books_occupied[i];j++){
 					if(strcmp(args, temp=to_lower(catalog[i][j].book_name))==0 && catalog[i][j].ISSUE.status==0){
+	                    printf("\nBook found.\n");
 						printbooks(i, j);
 						free(temp);
 						return j;
@@ -65,6 +67,7 @@ int search(char* args, int choice){
 			for(i=0;i<GENRE;i++){
 				for(j=0;j<books_occupied[i];j++){
 					if(atoi(args) == atoi(catalog[i][j].id) && catalog[i][j].ISSUE.status==0){
+                    	printf("\nBook found.\n");
 						printbooks(i, j);
 						return j;
 					}
@@ -80,7 +83,7 @@ int search(char* args, int choice){
 void search_books(){
 	int choice;
 	char args[50], *temp;
-	
+
     for(;;)
 	{
 		printf("\nSearch by:\n\n1. Author name\n2. Book name\n3. Book ID\n\n");
@@ -114,7 +117,7 @@ void search_books(){
 				return;
 
 			default:
-				printf("Enter a choice between 1 & 4 only.\n");
+				printf("Enter a choice between 1-4 only.\n");
 		}
 	}
 }
@@ -122,7 +125,7 @@ void search_books(){
 void sort(int choice){
 
     int i, j, k, min;
-    
+
     switch(choice) {
 
         // sort by ID
@@ -204,6 +207,70 @@ void sort_books(){
         else if(choice == 5)
             return;
         else
-            printf("Enter a choice between 1 & 5 only.\n\n");
+            printf("Enter a choice between 1-5 only.\n\n");
+    }
+}
+
+void modify(int i, int j)
+{
+    int choice;
+
+    printf("Modify:\n\n1. ID\n2. Book Name\n3. Author's Name\n4. Price\n");
+    printf("\nEnter a field: ");
+    scanf("%d", &choice);
+    getchar();
+
+    switch(choice){
+
+        case 1:
+            printf("Enter new ID: ");
+            scanf("%[^\n]s", catalog[i][j].id);
+            printbooks(i, j);
+            break;
+
+        case 2:
+            printf("Enter new Book Name: ");
+            scanf("%[^\n]s", catalog[i][j].book_name);
+            printbooks(i, j);
+            break;
+
+        case 3:
+            printf("Enter new Author Name: ");
+            scanf("%[^\n]s", catalog[i][j].author_name);
+            printbooks(i, j);
+            break;
+
+        case 4:
+            printf("Enter new Price: ");
+            scanf("%d", &catalog[i][j].price);
+            printbooks(i, j);
+            break;
+
+        case 5: return;
+
+        default: printf("Enter an choice between 1-5 only.\n");
+    }
+}
+
+void modify_books(){
+
+    char id[6];
+    int i, temp;
+
+    pprint();
+    for(;;){
+        pgenre();
+        scanf("%d", &i);
+        if(i<6){
+            printf("Enter the ID of the book whose fields are to be modified: ");
+            scanf("%s", id);
+            temp = search(id, 3);
+            if(temp != -1)
+                modify((i-1), temp);
+        }
+        else if(i==6)
+            return;
+        else
+            printf("Enter a choice between 1-6 only.\n");
     }
 }

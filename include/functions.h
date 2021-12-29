@@ -9,6 +9,11 @@ returns it's index based on the genre */
 
 int search(char* args, int choice);
 
+// modifies a given field in the database
+void modify_books();
+
+void modify(int i, int j);
+
 void search_books();
 
 void sort_books();
