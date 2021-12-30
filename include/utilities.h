@@ -1,7 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-// print a specific book in a
+// print a specific book belonging to a genre
 void printbooks(int i, int j);
 
 // pretty print function used to print all books in the database

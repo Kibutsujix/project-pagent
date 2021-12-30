@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <database.h>
 #include <functions.h>
 #include <utilities.h>
@@ -13,11 +14,11 @@ BOOK catalog[GENRE][BOOKS_PER_GENRE] = {
 
     { {3423,1,{ 22,03,2021,0 },"34212","The Guest List","Lucy Foley"}, {4433,1,{ 03,05,2021,1 },"43253","The Girl on the Train","Paula Hawkins"} },
 
-    { {4221,2,{ 21,11,2021,1 },"24353","The Haunting of Hill House","Shirley Jackson"}, {1212,2,{ 15,12,2021,0 },"43522","The Shining","Stephen King"} },
+    { {4221,2,{ 21,11,2021,0 },"24353","The Haunting of Hill House","Shirley Jackson"}, {1212,2,{ 15,12,2021,0 },"43522","The Shining","Stephen King"} },
 
     { {1234,3,{ 25,01,2022,1 },"53212","The Great Gatsby","Scott Fitzgerald"}, {5435,3,{ 12,07,2021,0 },"22853","Nineteen Eighty Four","Eric Arthur Blair"} },
 
-    { {1982,4,{ 23,04,2021,1 },"43255","It Ends with Us","Colleen Hoover"}, {3432,4,{ 07,12,2021,1 },"31232","Pride and Prejudice","Jane Austen"} }
+    { {1982,4,{ 23,04,2021,0 },"43255","It Ends with Us","Colleen Hoover"}, {3432,4,{ 07,12,2021,1 },"31232","Pride and Prejudice","Jane Austen"} }
 
 };
 
@@ -76,6 +77,7 @@ int search(char* args, int choice){
 			break;
 		}
 
+    printf("Book Issued/Not found.\n");
 	return -1;
   }
 
@@ -252,25 +254,45 @@ void modify(int i, int j)
     }
 }
 
-void modify_books(){
+void b_issue(int i, int j){
 
+    time_t t = time(NULL);
+    struct tm date = *localtime(&t);
+
+    catalog[i][j].ISSUE.day =  date.tm_mday;
+    catalog[i][j].ISSUE.month = date.tm_mon + 1;
+    catalog[i][j].ISSUE.year = date.tm_year + 1900;
+    catalog[i][j].ISSUE.status = 1;
+
+    printf("Issued on: %d-%02d-%02d", catalog[i][j].ISSUE.day, catalog[i][j].ISSUE.month, catalog[i][j].ISSUE.year);
+    printf(" at %02d:%02d:%02d.\n", date.tm_hour, date.tm_min, date.tm_sec);
+}
+
+void book_ops(int choice){
+
+    int i, j;
     char id[6];
-    int i, temp;
 
     pprint();
-    for(;;){
-        pgenre();
-        scanf("%d", &i);
-        if(i<6){
-            printf("Enter the ID of the book whose fields are to be modified: ");
-            scanf("%s", id);
-            temp = search(id, 3);
-            if(temp != -1)
-                modify((i-1), temp);
+
+    pgenre();
+    scanf("%d", &i);
+
+    // accept ID of a book to perform a specified operation
+    printf("Enter the ID of the book: ");
+    scanf("%s", id);
+    j = search(id, 3);
+    if(j != -1){
+
+        switch(choice){
+
+            case 3:
+                modify(i-1, j);
+                break;
+
+            case 4:
+                b_issue(i-1, j);
+                return;
         }
-        else if(i==6)
-            return;
-        else
-            printf("Enter a choice between 1-6 only.\n");
     }
 }

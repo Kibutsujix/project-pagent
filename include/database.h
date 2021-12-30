@@ -7,7 +7,7 @@ enum {Mystery, Thriller, Horror, Fiction, Romance};
 
 struct issue {
     int day;
-    int time;
+    int month;
     int year;
     int status;
 } issue;
