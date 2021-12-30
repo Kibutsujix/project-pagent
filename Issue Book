@@ -48,9 +48,9 @@ int search(char* args, int choice){
 					{
 					    catalog[i][j].ISSUE.status = 1;
 						printbooks(i, j);
-						return 1;
-					}
 						return 0;
+					}
+						return 1;
 				}
 			}
 			break;
@@ -63,9 +63,9 @@ int search(char* args, int choice){
 					{
 					    catalog[i][j].ISSUE.status = 1;
 						printbooks(i, j);
-						return 1;
-					}
 						return 0;
+					}
+						return 1;
 				}
 			}
 			break;
@@ -78,9 +78,9 @@ int search(char* args, int choice){
 					{
 					    catalog[i][j].ISSUE.status = 1;
 						printbooks(i, j);
-						return 1;
+						return 0;
 					}
-					  return 0;
+					  return 1;
 				}
 			}
 			break;
