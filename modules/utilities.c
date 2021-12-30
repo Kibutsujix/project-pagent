@@ -36,8 +36,9 @@ void scopy(int i, int j, int k){
 
 }
 
-char* to_lower(char str[]) {
-	int i=0;
+char* to_lower(char* str) {
+
+    int i=0;
 	char* temp = (char*)malloc(sizeof(char)*50);
 
 	while(str[i]!='\0')
