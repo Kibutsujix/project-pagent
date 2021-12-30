@@ -27,92 +27,38 @@ BOOK catalog[GENERE][BOOKS_PER_GENERE] = {
     { {982,4,{ 23,04,2021,1 },"43255","It Ends with Us","Colleen Hoover"}, {342,4,{ 07,12,2021,1 },"31232","Pride and Prejudice","Jane Austen"} }
 };
 void issue();
-int search(char *args, int choice);
+int search(char book[]);
 int main()
 {
     issue();
 }
-int books_occupied[5] = {2, 2, 2, 2, 2};
-
-int search(char* args, int choice){
-
-	int i, j;
-
-	switch(choice){
-
-		// search by author name
-		case 1:
-			for(i=0;i<GENRE;i++){
-				for(j=0;j<books_occupied[i];j++){
-					if(strcmp(args,(catalog[i][j].author_name))==0)
-					{
-					    catalog[i][j].ISSUE.status = 1;
-						printbooks(i, j);
-						return 0;
-					}
-						return 1;
-				}
-			}
-			break;
-
-		// search by book name
-		case 2:
-			for(i=0;i<GENRE;i++){
-				for(j=0;j<books_occupied[i];j++){
-					if(strcmp(args,(catalog[i][j].book_name))==0)
-					{
-					    catalog[i][j].ISSUE.status = 1;
-						printbooks(i, j);
-						return 0;
-					}
-						return 1;
-				}
-			}
-			break;
-
-		// search by ID
-		case 3:
-			for(i=0;i<GENRE;i++){
-				for(j=0;j<books_occupied[i];j++){
-					if(atoi(args) == atoi(catalog[i][j].id))
-					{
-					    catalog[i][j].ISSUE.status = 1;
-						printbooks(i, j);
-						return 0;
-					}
-					  return 1;
-				}
-			}
-			break;
-		}
-
-	return -1;
-  }
+int search(char book[])
+{
+    for(int i=0;i<(GENERE);i++)
+    {
+        for(int j=0;j<(BOOKS_PER_GENERE);j++)
+        {
+            if(strcmp((catalog[i][j].book_name),book)==0)
+            {
+                catalog[i][j].ISSUE.status = 1;
+                printf("The book being issued is:\n");
+                printf("NAME \t\t\t ID \t\t AUTHOR \n");
+                printf("%s \t\t\ %s \t\t %s \n",catalog[i][j].book_name,catalog[i][j].id,catalog[i][j].author_name);
+                printf("Issued on \t %d . %d . %d \n",catalog[i][j].ISSUE.day,catalog[i][j].ISSUE.time,catalog[i][j].ISSUE.year);
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
 void issue()
 {
-    int flag = 0,choice;
-    char author[50],name[50],bookid[50];
-    printf("Enter 1. If you want a book based on author name \n 2.If you want a book based on Book name \n 3.If you want a book based on book ID \n");
-    scanf("%d",choice);
-    switch(choice)
-    {
-      case 1:
-        printf("Enter the author name \n");
-        gets(author);
-        flag = search(author,choice);
-        break;
-      case 2:
-        printf("Enter the book name \n");
-        gets(name);
-        flag = search(name,choice);
-        break;
-      case 3:
-        printf("Enter the Book ID \n");
-        gets(bookid);
-        flag = search(bookid,choice);
-        break;
-    }
+    int flag = 0;
+    char issue_book[50];
+    printf("Please enter the name of the book you wish to take \n");
+    gets(issue_book);
+    flag = search(issue_book);
     if(flag)
-        printf("Sorry we do not have the book you asked for \n");
-    
+        printf("Sorry the book is not available \n");
+}
 }
