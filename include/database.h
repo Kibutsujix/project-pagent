@@ -3,8 +3,6 @@
 #define GENRE 5
 #define BOOKS_PER_GENRE 4
 
-enum {Mystery, Thriller, Horror, Fiction, Romance};
-
 struct issue {
     int day;
     int month;
@@ -22,13 +20,20 @@ typedef struct {
 	char author_name[50];
 } BOOK;
 
-extern const char* genre_list[5];
+typedef struct {
+    int i;
+    int j;
+} INDEX;
+
+extern const char* genre_list[];
 
 /* using a double dimension struct array (array of structures, but 2D) where
 each row represents a shelf containing books pertaining to a specific genre */
 
 extern BOOK catalog[GENRE][BOOKS_PER_GENRE];
 
-int books_occupied[5];
+extern int books_occupied[5];
+
+extern int ADMIN;
 
 #endif

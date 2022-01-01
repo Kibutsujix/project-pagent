@@ -6,7 +6,7 @@
 #include <functions.h>
 #include <utilities.h>
 
-const char* genre_list[5] = {"Mystery", "Thriller", "Horror", "Fiction", "Romance"};
+const char* genre_list[] = {"Mystery", "Thriller", "Horror", "Fiction", "Romance"};
 
 BOOK catalog[GENRE][BOOKS_PER_GENRE] = {
 
@@ -24,10 +24,13 @@ BOOK catalog[GENRE][BOOKS_PER_GENRE] = {
 
 int books_occupied[5] = {2, 2, 2, 2, 2};
 
-int search(char* args, int choice){
+int ADMIN = 0;
+
+INDEX search(char* args, int choice){
 
 	int i, j;
 	char* temp=NULL;
+    INDEX dd_index = { -1, -1 };
 
 	switch(choice){
 
@@ -35,11 +38,11 @@ int search(char* args, int choice){
 		case 1:
 			for(i=0;i<GENRE;i++){
 				for(j=0;j<books_occupied[i];j++){
-					if(strcmp(args, temp=to_lower(catalog[i][j].author_name))==0 && catalog[i][j].ISSUE.status==0){
+					if(strcmp(args, temp=to_lower(catalog[i][j].author_name))==0 && (ADMIN == 1 || catalog[i][j].ISSUE.status==0)){
                         printf("\nBook found.\n");
 						printbooks(i, j);
 						free(temp);
-						return j;
+                        return dd_index;
 					}
 					else
 						free(temp);
@@ -51,11 +54,11 @@ int search(char* args, int choice){
 		case 2:
 			for(i=0;i<GENRE;i++){
 				for(j=0;j<books_occupied[i];j++){
-					if(strcmp(args, temp=to_lower(catalog[i][j].book_name))==0 && catalog[i][j].ISSUE.status==0){
+					if(strcmp(args, temp=to_lower(catalog[i][j].book_name))==0 && (ADMIN == 1 || catalog[i][j].ISSUE.status==0)){
 	                    printf("\nBook found.\n");
 						printbooks(i, j);
 						free(temp);
-						return j;
+						return dd_index;
 					}
 					else
 						free(temp);
@@ -67,10 +70,11 @@ int search(char* args, int choice){
 		case 3:
 			for(i=0;i<GENRE;i++){
 				for(j=0;j<books_occupied[i];j++){
-					if(atoi(args) == atoi(catalog[i][j].id) && catalog[i][j].ISSUE.status==0){
+					if(atoi(args) == atoi(catalog[i][j].id) && (ADMIN == 1 || catalog[i][j].ISSUE.status==0)){
                     	printf("\nBook found.\n");
 						printbooks(i, j);
-						return j;
+                        dd_index.i = i; dd_index.j = j;
+                        return dd_index;
 					}
 				}
 			}
@@ -78,7 +82,7 @@ int search(char* args, int choice){
 		}
 
     printf("Book Issued/Not found.\n");
-	return -1;
+	return dd_index;
   }
 
 
@@ -135,12 +139,12 @@ void sort(int choice){
             for(i=0; i<GENRE; i++){
                 for(j=0; j<books_occupied[i]-1; j++){
                     min = j;
-                    for(k=j+1;k<books_occupied[i];k++){
-                        if(atoi(catalog[i][k].id) < atoi(catalog[i][min].id)){
+                    for(k=j+1; k<books_occupied[i]; k++){
+                        if(atoi(catalog[i][k].id) < atoi(catalog[i][min].id))
                             min = k;
-                            scopy(i, min, j);
-                        }
                     }
+                    if(min != j)
+                        s_swap(i, min, j);
                 }
             }
             break;
@@ -150,12 +154,12 @@ void sort(int choice){
             for(i=0; i<GENRE; i++){
                 for(j=0; j<books_occupied[i]-1; j++){
                     min = j;
-                    for(k=j+1;k<books_occupied[i];k++){
-                        if(strcmp(catalog[i][k].book_name, catalog[i][min].book_name)<0){
+                    for(k=j+1; k<books_occupied[i]; k++){
+                        if(strcmp(catalog[i][k].book_name, catalog[i][min].book_name)<0)
                             min = k;
-                            scopy(i, min, j);
-                        }
                     }
+                    if(min != j)
+                        s_swap(i, min, j);
                 }
             }
             break;
@@ -165,12 +169,12 @@ void sort(int choice){
             for(i=0; i<GENRE; i++){
                 for(j=0; j<books_occupied[i]-1; j++){
                     min = j;
-                    for(k=j+1;k<books_occupied[i];k++){
-                        if(strcmp(catalog[i][k].author_name, catalog[i][min].author_name)<0){
+                    for(k=j+1; k<books_occupied[i]; k++){
+                        if(strcmp(catalog[i][k].author_name, catalog[i][min].author_name)<0)
                             min = k;
-                            scopy(i, min, j);
-                        }
                     }
+                    if(min != j)
+                        s_swap(i, min, j);
                 }
             }
             break;
@@ -180,12 +184,12 @@ void sort(int choice){
             for(i=0; i<GENRE; i++){
                 for(j=0; j<books_occupied[i]-1; j++){
                     min = j;
-                    for(k=j+1;k<books_occupied[i];k++){
-                        if(catalog[i][k].price < catalog[i][min].price){
+                    for(k=j+1; k<books_occupied[i]; k++){
+                        if(catalog[i][k].price < catalog[i][min].price)
                             min = k;
-                            scopy(i, min, j);
-                        }
                     }
+                    if(min != j)
+                        s_swap(i, min, j);
                 }
             }
             break;
@@ -222,76 +226,138 @@ void modify(int i, int j)
     scanf("%d", &choice);
     getchar();
 
+    printf("Enter new value: ");
+
     switch(choice){
 
         case 1:
-            printf("Enter new ID: ");
             scanf("%[^\n]s", catalog[i][j].id);
-            printbooks(i, j);
             break;
 
         case 2:
-            printf("Enter new Book Name: ");
             scanf("%[^\n]s", catalog[i][j].book_name);
-            printbooks(i, j);
             break;
 
         case 3:
-            printf("Enter new Author Name: ");
             scanf("%[^\n]s", catalog[i][j].author_name);
-            printbooks(i, j);
             break;
 
         case 4:
-            printf("Enter new Price: ");
             scanf("%d", &catalog[i][j].price);
-            printbooks(i, j);
             break;
 
-        case 5: return;
-
-        default: printf("Enter an choice between 1-5 only.\n");
+        default:
+            printf("Enter an choice between 1-5 only.\n");
+            return;
     }
+
+    printf("\nUpdated details: \n");
+    printbooks(i, j);
 }
 
 void b_issue(int i, int j){
 
-    time_t t = time(NULL);
-    struct tm date = *localtime(&t);
+    static int count = 0;
 
-    catalog[i][j].ISSUE.day =  date.tm_mday;
-    catalog[i][j].ISSUE.month = date.tm_mon + 1;
-    catalog[i][j].ISSUE.year = date.tm_year + 1900;
-    catalog[i][j].ISSUE.status = 1;
+    if(count<3){
+        time_t t = time(NULL);
+        struct tm date = *localtime(&t);
 
-    printf("Issued on: %d-%02d-%02d", catalog[i][j].ISSUE.day, catalog[i][j].ISSUE.month, catalog[i][j].ISSUE.year);
-    printf(" at %02d:%02d:%02d.\n", date.tm_hour, date.tm_min, date.tm_sec);
+        catalog[i][j].ISSUE.day =  date.tm_mday;
+        catalog[i][j].ISSUE.month = date.tm_mon + 1;
+        catalog[i][j].ISSUE.year = date.tm_year + 1900;
+        catalog[i][j].ISSUE.status = 1;
+
+        printf("Issued on: %d-%02d-%02d", catalog[i][j].ISSUE.day, catalog[i][j].ISSUE.month, catalog[i][j].ISSUE.year);
+        printf(" at %02d:%02d:%02d.\n", date.tm_hour, date.tm_min, date.tm_sec);
+        ++count;
+    }
+    else
+        printf("You can borrow upto 3 books. Book not ISSUED.\n");
+}
+
+void add(){
+
+  int i;
+
+  printf("\n");
+  for(i=0;i<GENRE;i++)
+    printf("%d. %s\n", i+1, genre_list[i]);
+  printf("\nEnter a genre: ");
+  scanf("%d", &i);
+  getchar();
+
+  if(i>0 && i<6){
+
+    if(books_occupied[i-1]<=3){
+
+        // using this method to make it an interactive session
+        printf("ID: ");
+        scanf("%[^\n]s", catalog[i-1][books_occupied[i-1]].id);
+        getchar();
+
+        printf("Name: ");
+        scanf("%[^\n]s", catalog[i-1][books_occupied[i-1]].book_name);
+        getchar();
+
+        printf("Author Name: ");
+        scanf("%[^\n]s", catalog[i-1][books_occupied[i-1]].author_name);
+        getchar();
+
+        printf("Price: ");
+        scanf("%d", &catalog[i-1][books_occupied[i-1]].price);
+        getchar();
+
+        catalog[i-1][books_occupied[i-1]].genre = i-1;
+
+        ++books_occupied[i-1];
+        printf("\nBook details:\n");
+        printbooks(i-1, books_occupied[i-1]-1);
+
+    }
+    else
+      printf("Database with %s genre is full. Try something else.\n", genre_list[i-1]);
+  }
+  else
+    printf("Enter a valid genre.\n");
+}
+
+
+void delete(int i, int x){
+
+    int j;
+    for (j=x; j<books_occupied[i]-1; j++)
+        catalog[i][j] = catalog[i][j+1];
+
+    --books_occupied[i];
+    printf("BOOK DELETED.\n");
 }
 
 void book_ops(int choice){
 
-    int i, j;
+    INDEX dd_index;
     char id[6];
 
     pprint();
 
-    pgenre();
-    scanf("%d", &i);
-
     // accept ID of a book to perform a specified operation
-    printf("Enter the ID of the book: ");
+    printf("\nEnter the ID of the book: ");
     scanf("%s", id);
-    j = search(id, 3);
-    if(j != -1){
+    dd_index = search(id, 3);
+    if(dd_index.i != -1){
 
         switch(choice){
 
+            case 2:
+                delete(dd_index.i, dd_index.j);
+                break;
+
             case 3:
-                modify(i-1, j);
+                modify(dd_index.i, dd_index.j);
                 break;
 
             case 4:
-                b_issue(i-1, j);
+                b_issue(dd_index.i, dd_index.j);
                 return;
         }
     }

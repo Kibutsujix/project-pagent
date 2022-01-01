@@ -8,7 +8,7 @@ void printbooks(int i, int j);
 void pprint();
 
 // swap two "struct" elements in the array
-void scopy(int i, int j, int k);
+void s_swap(int i, int j, int k);
 
 /* converts a given string to lower case by allocating memory
 for a new string from heap and returning it's address */
@@ -17,9 +17,6 @@ for a new string from heap and returning it's address */
 char* to_lower(char* str);
 
 // compares two given hashes
-int hashcmp(char* h1, char* h2);
-
-// print list of genres available
-void pgenre();
+int hashcmp(const char* h1, const char* h2);
 
 #endif

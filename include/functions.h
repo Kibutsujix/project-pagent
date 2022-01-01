@@ -7,7 +7,7 @@ void sort(int choice);
 /* searches the database for a particular book and
 returns it's index based on the genre */
 
-int search(char* args, int choice);
+INDEX search(char* args, int choice);
 
 // issues a book to an user
 void b_issue(int i, int j);
@@ -17,6 +17,12 @@ void book_ops(int choice);
 
 // modifies a given field in the database
 void modify(int i, int j);
+
+// add books to the database
+void add();
+
+// delete books from the database
+void delete(int i, int x);
 
 void search_books();
 

@@ -18,15 +18,18 @@ void pprint(){
     printf("\t+---------------------------------------------------------------------------------------+\n");
     for(i=0; i<GENRE; i++){
         for(j=0; j<books_occupied[i]; j++){
-            if(strlen(catalog[i][j].book_name)>10)
-                printf("\t| %s\t | %.15s...\t | %.15s...\t | %d\t\t | %s\n", catalog[i][j].id, catalog[i][j].book_name, catalog[i][j].author_name, catalog[i][j].price, genre_list[i]);
-            else
-                printf("\t| %s\t | %s\t\t | %s\t | %d\t\t | %s\n", catalog[i][j].id, catalog[i][j].book_name, catalog[i][j].author_name, catalog[i][j].price, genre_list[i]);
+            if(ADMIN == 1 || catalog[i][j].ISSUE.status != 1){
+
+                if(strlen(catalog[i][j].book_name)>10)
+                    printf("\t| %s\t | %.15s...\t | %.15s...\t | %d\t\t | %s\n", catalog[i][j].id, catalog[i][j].book_name, catalog[i][j].author_name, catalog[i][j].price, genre_list[i]);
+                else
+                    printf("\t| %s\t | %s\t\t | %s\t | %d\t\t | %s\n", catalog[i][j].id, catalog[i][j].book_name, catalog[i][j].author_name, catalog[i][j].price, genre_list[i]);
+            }
         }
     }
 }
 
-void scopy(int i, int j, int k){
+void s_swap(int i, int j, int k){
 
     BOOK temp;
 
@@ -36,7 +39,7 @@ void scopy(int i, int j, int k){
 
 }
 
-char* to_lower(char* str) {
+char* to_lower(char* str){
 
     int i=0;
 	char* temp = (char*)malloc(sizeof(char)*50);
@@ -54,7 +57,7 @@ char* to_lower(char* str) {
 	return temp;
 }
 
-int hashcmp(char* h1, char* h2){
+int hashcmp(const char* h1, const char* h2){
 
     int i=0;
 
@@ -71,14 +74,4 @@ int hashcmp(char* h1, char* h2){
     }
 
     return 0;
-}
-
-void pgenre(){
-
-    int i;
-
-    printf("\n");
-    for(i=0;i<GENRE;i++)
-        printf("%d. %s\n", i+1, genre_list[i]);
-    printf("\nEnter a genre/Enter 6 to exit: ");
 }
