@@ -22,21 +22,27 @@ A simple program to represent a library database using structures in C.
 
 - Clone the repo.
 
-    `git clone https://github.com/hyPnOtICDo0g/structdb --depth 1`
+    ```
+    git clone https://github.com/hyPnOtICDo0g/structdb --depth 1
+    ```
 
 - Navigate to the repo's folder.
 
-    `cd structdb`
+    ```
+    cd structdb
+    ```
 
-### Linux:
+### Linux
 
-`make linux`
+```
+make linux
+````
 
 ### Windows
 
 > Dependencies can be installed via [scoop](https://scoop.sh).
 
 ```
-scoop install git make mingw
+scoop install git mingw
 make windows
 ```
