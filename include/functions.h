@@ -24,8 +24,10 @@ void add();
 // delete books from the database
 void delete(int i, int x);
 
+// search choice handler
 void search_books();
 
+// sort choice handler
 void sort_books();
 
 #endif

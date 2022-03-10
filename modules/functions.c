@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <database.h>
-#include <functions.h>
-#include <utilities.h>
+
+#include "database.h"
+#include "functions.h"
+#include "utilities.h"
 
 const char* genre_list[] = {"Mystery", "Thriller", "Horror", "Fiction", "Romance"};
 

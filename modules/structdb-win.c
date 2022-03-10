@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <database.h>
-#include <functions.h>
-#include <utilities.h>
+
+#include "database.h"
+#include "functions.h"
+#include "utilities.h"
 
 int main(){
 

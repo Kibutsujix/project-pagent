@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <database.h>
-#include <functions.h>
-#include <utilities.h>
+
+#include "database.h"
+#include "functions.h"
+#include "utilities.h"
 
 int main(){
 
@@ -69,7 +70,7 @@ int main(){
             else if(choice == 2 && hashcmp(inputpass=strdup(crypt(passwd, "$5$")), hash_user)==0){
 
                 ADMIN = 0;
-                
+
                 for(;;){
 
                     printf("\nBook Operations:\n\n1. Search\n2. Sort\n3. List\n4. Issue\n\n");
@@ -95,7 +96,7 @@ int main(){
                             if(hashcmp(inputpass=strdup(crypt(getpass("Enter ADMIN password to issue book: "), "$5$")), hash_admin)==0)
                                 book_ops(choice);
                             else
-                                printf("Wrong password.\n");  
+                                printf("Wrong password.\n");
                             break;
 
                         case 5:
