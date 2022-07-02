@@ -2,17 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "database.h"
-#include "utilities.h"
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
+#include "modules/database.h"
+#include "modules/utilities.h"
 
 void printbooks(int i, int j){
-
 	printf("\nID: %s\nName: %s\nAuthor: %s\nGenre: %s\nPrice: %d\n\n", catalog[i][j].id, catalog[i][j].book_name, \
 			catalog[i][j].author_name, genre_list[i], catalog[i][j].price);
 }
 
 void pprint(){
-
     int i, j;
     printf("\n\t+---------------------------------------------------------------------------------------+\n");
     printf("\tID\t NAME\t\t\t AUTHOR\t\t\t PRICE\t\t GENRE\n");
@@ -31,17 +33,14 @@ void pprint(){
 }
 
 void s_swap(int i, int j, int k){
-
     BOOK temp;
 
     temp = catalog[i][j];
     catalog[i][j] = catalog[i][k];
     catalog[i][k] = temp;
-
 }
 
 char* to_lower(char* str){
-
     int i=0;
 	char* temp = (char*)malloc(sizeof(char)*50);
 
@@ -58,21 +57,13 @@ char* to_lower(char* str){
 	return temp;
 }
 
-int hashcmp(const char* h1, const char* h2){
-
-    int i=0;
-
-    if(strlen(h1)!=strlen(h2))
-        return -1;
-    else{
-        while(h1[i] != '\0'){
-
-            if(h1[i]!=h2[i])
-                return -1;
-            else
-                i++;
-        }
+#ifdef _WIN32
+    void echo_off(char *passwd){
+        HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+        DWORD mode = 0;
+        GetConsoleMode(hStdin, &mode);
+        SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
+        scanf("%[^\n]s", passwd);
+        SetConsoleMode(hStdin, mode);
     }
-
-    return 0;
-}
+#endif

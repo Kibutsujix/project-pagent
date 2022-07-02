@@ -16,7 +16,9 @@ for a new string from heap and returning it's address */
 // once used, it must be freed back into the heap
 char* to_lower(char* str);
 
-// compares two given hashes
-int hashcmp(const char* h1, const char* h2);
+#ifdef _WIN32
+    // hide user input when accepting a password on windows
+    void echo_off(char *passwd);
+#endif
 
 #endif

@@ -4,28 +4,40 @@ on: [workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
 
-      - name: Install Mingw
-        run: sudo apt install mingw-w64
-
-      - name: Build Linux & Windows binaries
+      - name: Install windows dependencies
+        shell: pwsh
         run: |
-          make all
-          mv build/* .
-          sha256sum structdb-linux-x86_64 > structdb-linux-x86_64.sha256
-          sha256sum structdb-windows-x86_64.exe > structdb-windows-x86_64.exe.sha256 
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+          scoop install git gow mingw-winlibs
+        if: matrix.os == 'windows-latest'
+
+      - name: Build windows binary
+        shell: pwsh
+        run: |
+          make -B
+          cd build && sha256sum structdb-windows-amd64.exe > structdb-windows-amd64.exe.sha256
+        if: matrix.os == 'windows-latest'
+
+      - name: Build linux binary
+        shell: bash
+        run: |
+          make -B
+          cd build && sha256sum structdb-linux-x86_64 > structdb-linux-x86_64.sha256
+        if: matrix.os == 'ubuntu-latest'
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: binaries
-          path: |
-            structdb-linux-x86_64
-            structdb-windows-x86_64.exe
-            *.sha256
+          path: ./build/
           retention-days: 5

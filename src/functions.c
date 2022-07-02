@@ -3,14 +3,13 @@
 #include <string.h>
 #include <time.h>
 
-#include "database.h"
-#include "functions.h"
-#include "utilities.h"
+#include "modules/database.h"
+#include "modules/functions.h"
+#include "modules/utilities.h"
 
 const char* genre_list[] = {"Mystery", "Thriller", "Horror", "Fiction", "Romance"};
 
 BOOK catalog[GENRE][BOOKS_PER_GENRE] = {
-
     { {1000,0,{ 27,12,2021,0 },"82734","Gone Girl","Gillian Flynn"}, {2332,0,{ 17,10,2021,0 },"32434","The Hound of the Baskervilles","Sir Arthur Conan Doyle"} },
 
     { {3423,1,{ 22,03,2021,0 },"34212","The Guest List","Lucy Foley"}, {4433,1,{ 03,05,2021,1 },"43253","The Girl on the Train","Paula Hawkins"} },
@@ -20,7 +19,6 @@ BOOK catalog[GENRE][BOOKS_PER_GENRE] = {
     { {1234,3,{ 25,01,2022,1 },"53212","The Great Gatsby","Scott Fitzgerald"}, {5435,3,{ 12,07,2021,0 },"22853","Nineteen Eighty Four","Eric Arthur Blair"} },
 
     { {1982,4,{ 23,04,2021,0 },"43255","It Ends with Us","Colleen Hoover"}, {3432,4,{ 07,12,2021,1 },"31232","Pride and Prejudice","Jane Austen"} }
-
 };
 
 int books_occupied[5] = {2, 2, 2, 2, 2};
@@ -28,7 +26,6 @@ int books_occupied[5] = {2, 2, 2, 2, 2};
 int ADMIN = 0;
 
 INDEX search(char* args, int choice){
-
 	int i, j;
 	char* temp=NULL;
     INDEX dd_index = { -1, -1 };
@@ -130,7 +127,6 @@ void search_books(){
 }
 
 void sort(int choice){
-
     int i, j, k, min;
 
     switch(choice) {
@@ -198,7 +194,6 @@ void sort(int choice){
 }
 
 void sort_books(){
-
     int choice;
 
     for(;;){
@@ -218,8 +213,7 @@ void sort_books(){
     }
 }
 
-void modify(int i, int j)
-{
+void modify(int i, int j){
     int choice;
 
     printf("Modify:\n\n1. ID\n2. Book Name\n3. Author's Name\n4. Price\n");
@@ -251,13 +245,11 @@ void modify(int i, int j)
             printf("Enter an choice between 1-5 only.\n");
             return;
     }
-
     printf("\nUpdated details: \n");
     printbooks(i, j);
 }
 
 void b_issue(int i, int j){
-
     static int count = 0;
 
     if(count<3){
@@ -278,7 +270,6 @@ void b_issue(int i, int j){
 }
 
 void add(){
-
   int i;
 
   printf("\n");
@@ -323,9 +314,7 @@ void add(){
     printf("Enter a valid genre.\n");
 }
 
-
 void delete(int i, int x){
-
     int j;
     for (j=x; j<books_occupied[i]-1; j++)
         catalog[i][j] = catalog[i][j+1];
@@ -335,7 +324,6 @@ void delete(int i, int x){
 }
 
 void book_ops(int choice){
-
     INDEX dd_index;
     char id[6];
 

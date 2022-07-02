@@ -1,6 +1,6 @@
 # About
 
-A simple program to represent a library database using structures in C.
+A simple simulation of a library database using structures in C.
 
 # Usage
 
@@ -11,19 +11,23 @@ A simple program to represent a library database using structures in C.
 
 ## Dependencies
 
-- GCC <=9.3.0 (linux)
-- MinGW-w64 <=8.1.0 (windows)
+- GCC (linux)
+- MinGW-w64 (windows)
 - make
 - git
+- [gow](https://github.com/bmatzelle/gow) (windows)
 
-> Building using other versions of GCC haven't been tested. Expect build errors.
+> Dependencies can be installed via [scoop](https://scoop.sh). (Windows only)
+```
+scoop install git gow mingw-winlibs
+```
 
 ## Procedure
 
 - Clone the repo.
 
     ```
-    git clone https://github.com/hyPnOtICDo0g/structdb --depth 1
+    git clone https://github.com/hyPnOtICDo0g/structdb --depth=1
     ```
 
 - Navigate to the repo's folder.
@@ -32,17 +36,11 @@ A simple program to represent a library database using structures in C.
     cd structdb
     ```
 
-### Linux
+- Build.
+    ```
+    make build
+    ```
 
-```
-make linux
-````
+# Credits
 
-### Windows
-
-> Dependencies can be installed via [scoop](https://scoop.sh).
-
-```
-scoop install git mingw
-make windows
-```
+- [LekKit](https://github.com/LekKit) - C [Implementation](https://github.com/LekKit/sha256) of the SHA-256 hashing algorithm

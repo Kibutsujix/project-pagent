@@ -8,7 +8,7 @@ struct issue {
     int month;
     int year;
     int status;
-} issue;
+};
 
 // struct database containing attributes of a book
 typedef struct {

@@ -1,25 +1,26 @@
 CC = gcc
-WINCC = x86_64-w64-mingw32-gcc
-SRC = modules/functions.c modules/utilities.c
-LNXBLD = modules/structdb-lnx.c
-WINBLD = modules/structdb-win.c
-INC = include/
-BUILD = build
+SRC = src/functions.c src/sha256.c src/structdb.c src/utilities.c
+DIR = build
+MKDIR = $(shell test -d $(DIR) || mkdir $(DIR))
 EXEC = structdb
-CFLAGS = -s -static -Werror -Wall -Wextra -Wshadow -Wunused-parameter -I
-LIBS = -lcrypt
-CDIR = mkdir -p
+CFLAGS = \
+		-s -static -Os \
+		-Wall -Wextra -Wpedantic -Wshadow -Werror \
+		-Wno-unused-result -Wbad-function-cast -Wcast-align \
+		-Wundef -Wpointer-arith -funroll-loops
 
-all: clean linux mingw-win
+ifeq ($(OS), Windows_NT)
+	EXEC +=-windows-$(PROCESSOR_ARCHITECTURE)
+else
+	EXEC +=-$(shell uname -s)-$(shell uname -p)
+	LIBS =-lcrypt
+endif
 
-linux:
-	$(CDIR) $(BUILD) && $(CC) $(CFLAGS) $(INC) $(SRC) $(LNXBLD) -o $(BUILD)/$(EXEC)-linux-x86_64 $(LIBS)
+BUILD = $(shell echo $(EXEC) | tr 'A-Z' 'a-z' | tr -d " ")
 
-mingw-win:
-	$(CDIR) $(BUILD) && $(WINCC) $(CFLAGS) $(INC) $(SRC) $(WINBLD) -o $(BUILD)/$(EXEC)-windows-x86_64.exe -Os
-
-windows:
-	$(WINCC) $(CFLAGS) $(INC) $(SRC) $(WINBLD) -o $(EXEC)-windows-x86_64.exe -Os
+build:
+	$(MKDIR)
+	$(CC) $(CFLAGS) $(SRC) -o $(DIR)/$(BUILD) $(LIBS)
 
 clean:
-	rm -rf $(BUILD)
+	rm -rf $(DIR)
